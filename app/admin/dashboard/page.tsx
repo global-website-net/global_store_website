@@ -394,7 +394,7 @@ export default function AdminDashboard() {
                               {index + 1}
                             </div>
                             <div className="flex items-center mr-3">
-                              <ShopLogo shopName={shop.name} logoPath={shop.logo} width={40} height={40} />
+                              <ShopLogo shopName={shop.name} className="w-10 h-10 object-contain" />
                               <h3 className="text-lg font-semibold text-gray-800 mr-3">{shop.name}</h3>
                             </div>
                           </div>

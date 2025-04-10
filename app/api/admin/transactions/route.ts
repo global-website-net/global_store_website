@@ -1,7 +1,16 @@
+'use strict';
+
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/auth.config";
 import prisma from "../../../../lib/prisma";
+import type { Prisma, PrismaClient } from "@prisma/client";
+
+// Enable strict type checking
+type TransactionClient = Omit<
+  PrismaClient,
+  '$connect' | '$disconnect' | '$on' | '$transaction' | '$use' | '$extends'
+>;
 
 export async function POST(request: Request) {
   try {
@@ -27,7 +36,10 @@ export async function POST(request: Request) {
     }
 
     // Start a transaction to ensure data consistency
-    const result = await prisma.$transaction(async (tx) => {
+    const result = await prisma.$transaction<{
+      user: Prisma.UserGetPayload<{ include: { transactions: true } }>;
+      transaction: Prisma.TransactionGetPayload<{}>;
+    }>(async (tx: TransactionClient) => {
       // Get the user's current balance
       const user = await tx.user.findUnique({
         where: { id: userId },

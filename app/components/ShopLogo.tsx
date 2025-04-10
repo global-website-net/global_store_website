@@ -3,43 +3,28 @@ import { useState } from 'react';
 
 interface ShopLogoProps {
   shopName: string;
-  logoPath: string;
-  width?: number;
-  height?: number;
+  className?: string;
 }
 
-export default function ShopLogo({ shopName, logoPath, width = 100, height = 40 }: ShopLogoProps) {
+export default function ShopLogo({ shopName, className = '' }: ShopLogoProps) {
   const [imageError, setImageError] = useState(false);
-
+  
   if (imageError) {
     return (
-      <div 
-        style={{
-          width,
-          height,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: '#FF0080',
-          color: 'white',
-          borderRadius: '4px',
-          fontSize: '14px',
-          fontWeight: 'bold'
-        }}
-      >
-        {shopName}
+      <div className={`flex items-center justify-center bg-gray-100 rounded-lg ${className}`}>
+        <span className="text-lg font-semibold text-gray-800">{shopName}</span>
       </div>
     );
   }
 
   return (
     <Image
-      src={logoPath}
+      src={`/images/${shopName.toLowerCase()}-logo.png`}
       alt={`${shopName} logo`}
-      width={width}
-      height={height}
+      width={100}
+      height={50}
+      className={className}
       onError={() => setImageError(true)}
-      style={{ objectFit: 'contain' }}
     />
   );
 } 
