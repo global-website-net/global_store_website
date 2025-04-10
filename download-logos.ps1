@@ -6,6 +6,6 @@ Invoke-WebRequest -Uri "https://www.google.com/images/branding/googlelogo/1x/goo
 Invoke-WebRequest -Uri "https://www.amazon.com/favicon.ico" -OutFile "public/images/amazon-logo.png"
 Invoke-WebRequest -Uri "https://www.ebay.com/favicon.ico" -OutFile "public/images/ebay-logo.png"
 Invoke-WebRequest -Uri "https://www.aliexpress.com/favicon.ico" -OutFile "public/images/aliexpress-logo.png"
-Invoke-WebRequest -Uri "https://www.sephora.com/favicon.ico" -OutFile "public/images/sephora-logo.png"
+Invoke-WebRequest -Uri "https://logos-world.net/wp-content/uploads/2020/11/Sephora-Logo.png" -OutFile "public/images/sephora-logo.png"
 
 Write-Host "Logos downloaded successfully!" 

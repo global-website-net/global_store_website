@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Header from '@/app/components/Header';
+import ShopLogo from '@/app/components/ShopLogo';
 import {
   LineChart,
   Line,
@@ -311,8 +312,8 @@ export default function AdminDashboard() {
                         }}
                       />
                       <Tooltip 
-                        formatter={(value: any) => [value.toString()]}
-                        labelStyle={{ textAlign: 'right' }}
+                        formatter={(value: any) => [`${value}`, 'عدد الطرود']}
+                        labelFormatter={(label: any) => `الشهر: ${label}`}
                       />
                       <Line
                         type="monotone"
@@ -337,14 +338,14 @@ export default function AdminDashboard() {
                       <PieChart>
                         <Pie
                           data={stats?.statusDistribution || []}
-                          cx="50%"
-                          cy="40%"
-                          labelLine={false}
-                          label={renderCustomizedLabel as any}
-                          outerRadius={100}
+                          cx={200}
+                          cy={200}
+                          labelLine
+                          outerRadius={80}
                           fill="#8884d8"
                           dataKey="count"
                           nameKey="status"
+                          label={renderCustomizedLabel as any}
                         >
                           {stats?.statusDistribution?.map((entry, index) => (
                             <Cell
@@ -353,11 +354,11 @@ export default function AdminDashboard() {
                             />
                           ))}
                         </Pie>
-                        <Tooltip 
+                        <Tooltip
                           formatter={(value: any, name: string) => [
-                            value.toString(), 
+                            value.toString(),
                             STATUS_LABELS[name as keyof typeof STATUS_LABELS]
-                          ]} 
+                          ]}
                         />
                         <Legend
                           verticalAlign="bottom"
@@ -392,7 +393,10 @@ export default function AdminDashboard() {
                             <div className="w-10 h-10 bg-yellow-500 rounded-full flex items-center justify-center text-white font-bold text-lg">
                               {index + 1}
                             </div>
-                            <h3 className="text-lg font-semibold text-gray-800 mr-3">{shop.name}</h3>
+                            <div className="flex items-center mr-3">
+                              <ShopLogo shopName={shop.name} logoPath={shop.logo} width={40} height={40} />
+                              <h3 className="text-lg font-semibold text-gray-800 mr-3">{shop.name}</h3>
+                            </div>
                           </div>
                           <div className="space-y-3">
                             <div>

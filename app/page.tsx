@@ -1,10 +1,12 @@
 'use client'
 
+import { useSession } from 'next-auth/react'
+import Header from './components/Header'
+import { motion } from 'framer-motion'
+import ShopLogo from './components/ShopLogo'
 import Image from 'next/image'
 import { MotionDiv, MotionH1, MotionP } from './components/AnimatedContent'
 import { useEffect, useState } from 'react'
-import { useSession } from 'next-auth/react'
-import Header from './components/Header'
 
 interface UserData {
   fullName: string
@@ -271,13 +273,7 @@ export default function Home() {
               viewport={{ once: true }}
             >
               <a href="https://www.amazon.com" target="_blank" rel="noopener noreferrer" className="block">
-                <Image
-                  src="/images/amazon-logo.png"
-                  alt="Amazon"
-                  width={150}
-                  height={50}
-                  className="mx-auto"
-                />
+                <ShopLogo shopName="Amazon" logoPath="/images/amazon-logo.png" width={150} height={50} />
               </a>
               <h3 className="text-xl font-semibold text-gray-800 mt-4">أمازون</h3>
               <p className="text-gray-600 mt-2">الوصول إلى ملايين المنتجات من أمازون الولايات المتحدة والمملكة المتحدة والمزيد</p>
@@ -291,13 +287,7 @@ export default function Home() {
               viewport={{ once: true }}
             >
               <a href="https://www.ebay.com" target="_blank" rel="noopener noreferrer" className="block">
-                <Image
-                  src="/images/ebay-logo.png"
-                  alt="eBay"
-                  width={150}
-                  height={50}
-                  className="mx-auto"
-                />
+                <ShopLogo shopName="eBay" logoPath="/images/ebay-logo.png" width={150} height={50} />
               </a>
               <h3 className="text-xl font-semibold text-gray-800 mt-4">إيباي</h3>
               <p className="text-gray-600 mt-2">تسوق من بائعي إيباي حول العالم مع شحن آمن وموثوق</p>
@@ -311,13 +301,7 @@ export default function Home() {
               viewport={{ once: true }}
             >
               <a href="https://www.aliexpress.com" target="_blank" rel="noopener noreferrer" className="block">
-                <Image
-                  src="/images/aliexpress-logo.png"
-                  alt="AliExpress"
-                  width={100}
-                  height={33}
-                  className="mx-auto"
-                />
+                <ShopLogo shopName="AliExpress" logoPath="/images/aliexpress-logo.png" width={100} height={33} />
               </a>
               <h3 className="text-xl font-semibold text-gray-800 mt-4">علي إكسبرس</h3>
               <p className="text-gray-600 mt-2">احصل على أفضل العروض من علي إكسبرس مع توصيل موثوق</p>
