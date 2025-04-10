@@ -1,0 +1,95 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?
+  phone         String?
+  address       String?
+  balance       Float     @default(0)
+  isAdmin       Boolean   @default(false)
+  isShop        Boolean   @default(false)
+  isPhysicalShop Boolean  @default(false)  // Whether this shop offers physical delivery
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  transactions  Transaction[]
+  balanceHistory BalanceHistory[]
+  packages      Package[] @relation("UserPackages")
+  shopPackages  Package[] @relation("ShopPackages")
+}
+
+model Transaction {
+  id          String   @id @default(cuid())
+  amount      Float
+  type        String
+  description String?
+  createdAt   DateTime @default(now())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model BalanceHistory {
+  id        String   @id @default(cuid())
+  userId    String
+  amount    Float
+  type      String   // 'add' or 'reduce'
+  reason    String?  // reason for the balance change
+  createdAt DateTime @default(now())
+  updatedBy String   // email of the user who made the change
+  isAdmin   Boolean  @default(false) // to differentiate between admin and user changes
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Package {
+  id             String   @id @default(cuid())
+  trackingNumber String   @unique
+  description    String
+  status         String   // e.g., 'pending', 'received', 'processed'
+  deliveryCost   Float    @default(0)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  userId         String
+  shopId         String
+  user           User     @relation("UserPackages", fields: [userId], references: [id], onDelete: Cascade)
+  shop           User     @relation("ShopPackages", fields: [shopId], references: [id], onDelete: Cascade)
+}
+
+model BlogPost {
+  id          String   @id @default(cuid())
+  title       String
+  content     String
+  imageUrl    String?
+  itemUrl     String?  // URL to the item if available
+  price       Float?   // Price of the item
+  views       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  createdBy   String   // Admin who created the post
+  updatedBy   String   // Admin who last updated the post
+  isPublished Boolean  @default(false)
+  order       Int      @default(0)  // For manual ordering of posts
+}
+
+model ContactMessage {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  message   String
+  createdAt DateTime @default(now())
+}
